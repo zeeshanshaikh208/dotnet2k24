@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Technical Topics</title>
+  <title>TechIteZee</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom CSS -->
@@ -13,7 +13,7 @@
 
   <!-- Header -->
   <div id="header">
-    <h1>Technical Topics Website</h1>
+    <h1>TechIteZee</h1>
   </div>
 
   <!-- Sidebar -->
@@ -30,46 +30,60 @@
       <!-- .NET Category -->
       <a href="#dotnetCollapse" class="list-group-item list-group-item-action" data-toggle="collapse" aria-expanded="false" aria-controls="dotnetCollapse">.NET</a>
       <div class="collapse" id="dotnetCollapse">
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-early-late-binding')">Early Binding vs Late Binding</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-finalize-dispose')">Finalize() and Dispose()</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-var-dynamic')">var vs dynamic</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-sealed')">sealed</a>
         
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-minification-bundling')">Minification and Bundling</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-finalize-dispose')">Finalize() and Dispose()</a>
+
+        
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-run-use-map')">Run(), Use(), Map() Methods</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-middleware-filters')">Middleware vs Filters in .NET Core</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-dependency-injection')">Dependency Injection</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-service-lifetimes')">Service Lifetimes</a>
+        
+
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-mvc')">MVC</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-mvc-routing')">MVC Routing</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-action-return-types')">Controller Action Return Types</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-actionresult-viewresult')">ActionResult vs ViewResult</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-viewbag-viewdata-tempdata')">ViewBag ViewData TempData</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-minification-bundling')">Minification and Bundling</a>
+
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-webapi')">Web Api</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-webapi-return-types')">Web Api Return Type</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-webapi-error-handling')">Web Api Error Handling</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-extension-methods')">Extension Methods</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-middleware-filters')">Middleware vs Filters in .NET Core</a>
+        
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-reflection')">Reflection</a>
       </div>
 
       <!-- General Topics -->
-      <a href="#generalCollapse" class="list-group-item list-group-item-action" data-toggle="collapse" aria-expanded="false" aria-controls="generalCollapse">General</a>
+      <a href="#generalCollapse" class="list-group-item list-group-item-action" data-toggle="collapse" aria-expanded="false" aria-controls="generalCollapse">Basics</a>
       <div class="collapse" id="generalCollapse">
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-oops-concept')">OOPS Concepts</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-boxing-unboxing')">Boxing Unboxing Autoboxing</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-abstractclass-interface')">Abstract Class & Interface</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-var-dynamic')">var vs dynamic</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-sealed')">Sealed</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-tuple')">Tuple</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-delegate')">Delegate</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-extension-methods')">Extension Methods</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-early-late-binding')">Early Binding vs Late Binding</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-solid-principles')">SOLID Principles</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-open-close-principle')">OPEN CLOSE (OCP) Principle</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-dependency-injection')">Dependency Injection</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-service-lifetimes')">Service Lifetimes</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-ajax')">AJAX</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-viewstate-session')">ViewState vs Session</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-cookies')">Types of Cookies</a>
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-ado-net')">ADO.NET</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-mvc-routing')">MVC Routing</a>
+        
         <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-session-management')">Session Management</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-action-return-types')">Controller Action Return Types</a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-actionresult-viewresult')">ActionResult vs ViewResult</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-authentication-authorization')">Authentication & Authorizationt</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-jwt')">Authentication & Authorizationt</a>
       </div>
     </div>
   </div>
 
   <!-- Main Content -->
   <div id="content">
-    <h2>Welcome to the Technical Topics Website</h2>
-    <p>Select a topic from the sidebar to view its description.</p>
+    <h2>Welcome!!!</h2>
+    <p>Please select a topic from the sidebar to view its description.</p>
     <div id="topic-content">
       <!-- Topic content will be displayed here -->
     </div>

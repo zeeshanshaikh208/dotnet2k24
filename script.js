@@ -15,7 +15,7 @@ const content = {
     `,
     //DOTNET
     //Binding
-    'dotnet-early-late-binding': `
+    'general-early-late-binding': `
       <h3>Early Binding vs Late Binding</h3>
         
         <p>In .NET, early binding and late binding refer to how objects and methods are referenced and called during execution. Here's a breakdown of both concepts:</p>
@@ -280,7 +280,7 @@ emp.CalculateSalary();          // Method call is determined at runtime
 
 
 //SEALED
-'dotnet-sealed':`
+'general-sealed':`
 <h1 class="mt-4">The <code>sealed</code> Keyword in C#</h1>
   <p>The <code>sealed</code> keyword in C# is used to restrict the inheritance of a class or method. It can be applied to both classes and methods to control how they can be used in inheritance hierarchies. Here’s a detailed explanation of its usage:</p>
 
@@ -715,7 +715,7 @@ public IHttpActionResult Get(int id)
 `,
 
 //EXTENSION METHODS
-'dotnet-extension-methods':`
+'general-extension-methods':`
 <h2>Extension Methods in C#</h2>
 
 <p>Extension methods in C# are a way to "add" new methods to existing types without modifying their source code. This feature is particularly useful when you need to enhance the functionality of classes for which you do not have the source code or cannot modify them directly.</p>
@@ -814,8 +814,334 @@ public static class MathExtensions
 
 `,
 
+//TUPLE
+'general-tuple':`
+<div>
+    <h2>What is a Tuple?</h2>
+    <p>A tuple is a data structure that allows you to group multiple values into a single composite value. Unlike arrays or lists, tuples are typically fixed in size and can hold items of different types. They are often used to represent a collection of related items in a lightweight and immutable way.</p>
+
+    <h3>Key Characteristics of Tuples:</h3>
+    <ul>
+        <li><strong>Fixed Size:</strong> The number of elements in a tuple is fixed once it is created.</li>
+        <li><strong>Immutable:</strong> In many languages, tuples are immutable, meaning that their values cannot be changed after they are created. In some languages, this can be configurable.</li>
+        <li><strong>Heterogeneous:</strong> Tuples can hold elements of different types. For example, a tuple might contain an integer, a string, and a boolean.</li>
+        <li><strong>Indexable:</strong> Elements in a tuple can be accessed by their index.</li>
+    </ul>
+
+    <h3>Tuples in Different Languages:</h3>
+    
+    <h4>C#</h4>
+    <p>In C#, tuples are provided by the <code>System.Tuple</code> class or by using the new C# 7.0 <code>ValueTuple</code> type. Here’s how you use tuples in C#:</p>
+    <pre><code>// Using System.Tuple
+var person = new Tuple&lt;string, int&gt;("Alice", 30);
+Console.WriteLine(person.Item1); // Output: Alice
+Console.WriteLine(person.Item2); // Output: 30
+
+// Using ValueTuple (C# 7.0 and later)
+var person = (Name: "Alice", Age: 30);
+Console.WriteLine(person.Name); // Output: Alice
+Console.WriteLine(person.Age); // Output: 30
+</code></pre>
+
+    <h4>Python</h4>
+    <p>In Python, tuples are a built-in data type and are created by placing comma-separated values inside parentheses:</p>
+    <pre><code># Creating a tuple
+person = ("Alice", 30)
+
+# Accessing tuple elements
+print(person[0])  # Output: Alice
+print(person[1])  # Output: 30
+</code></pre>
+
+    <h4>JavaScript</h4>
+    <p>JavaScript does not have a built-in tuple type, but similar functionality can be achieved using arrays. Tuples are commonly used in TypeScript, a superset of JavaScript:</p>
+    <pre><code>// TypeScript Tuple
+let person: [string, number] = ["Alice", 30];
+
+console.log(person[0]); // Output: Alice
+console.log(person[1]); // Output: 30
+</code></pre>
+
+    <h3>Use Cases:</h3>
+    <ul>
+        <li><strong>Grouping Data:</strong> Tuples are useful for returning multiple values from a function without using a custom class or struct.</li>
+        <li><strong>Immutable Data Structures:</strong> They can be used when you need a simple data structure that should not be modified.</li>
+        <li><strong>Record Types:</strong> Tuples can represent records or structured data, often in scenarios where the data structure is simple and fixed.</li>
+    </ul>
+
+    <h3>Summary</h3>
+    <p>A tuple is a versatile and lightweight way to group multiple items together. The specific implementation and features of tuples can vary between programming languages, but they are generally used to store a fixed-size collection of heterogeneous elements.</p>
+</div>
+
+`,
+
+//DELEGATE
+'general-delegate':`
+ <h2>Understanding Delegates in C#</h2>
+
+    <p>In C#, a <strong>delegate</strong> is a type that represents references to methods with a particular parameter list and return type. Delegates provide a way to pass methods as arguments to other methods, and they are a foundational part of event handling and callback mechanisms in .NET.</p>
+
+    <h3>Key Concepts</h3>
+    
+    <h4>1. Definition:</h4>
+    <p>A delegate is a type-safe function pointer. It encapsulates a method, allowing it to be invoked through the delegate instance.</p>
+
+    <h4>2. Syntax:</h4>
+    <p>To define a delegate, you specify its return type and parameters. Here is a basic syntax:</p>
+    <pre><code>public delegate returnType DelegateName(parameters);</code></pre>
+
+    <h4>3. Instantiation:</h4>
+    <p>Delegates are instantiated with methods that match their signature:</p>
+    <pre><code>DelegateName delegateInstance = new DelegateName(MethodName);</code></pre>
+
+    <h4>4. Invocation:</h4>
+    <p>Delegates are invoked like regular methods:</p>
+    <pre><code>delegateInstance(arguments);</code></pre>
+
+    <h3>Example of Delegate</h3>
+    <p>Defining and Using a Delegate:</p>
+    <pre><code>
+using System;
+
+public delegate int MathOperation(int x, int y);
+
+public class Program
+{
+    public static void Main()
+    {
+        // Instantiate the delegate with a method
+        MathOperation add = Add;
+        int result = add(5, 3);
+        Console.WriteLine("Addition Result: " + result);  // Output: 8
+    }
+
+    // Method matching the delegate signature
+    public static int Add(int a, int b)
+    {
+        return a + b;
+    }
+}
+    </code></pre>
+
+    <h3>Common Uses of Delegates</h3>
+    
+    <h4>1. Event Handling:</h4>
+    <p>Delegates are used to define events. Events are a way for objects to notify other objects of changes or actions.</p>
+    <pre><code>
+using System;
+
+public class Publisher
+{
+    // Define a delegate
+    public delegate void Notify();
+
+    // Define an event based on that delegate
+    public event Notify OnNotify;
+
+    public void TriggerEvent()
+    {
+        OnNotify?.Invoke();
+    }
+}
+
+public class Subscriber
+{
+    public void OnNotifyHandler()
+    {
+        Console.WriteLine("Event received!");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Publisher publisher = new Publisher();
+        Subscriber subscriber = new Subscriber();
+
+        // Subscribe to the event
+        publisher.OnNotify += subscriber.OnNotifyHandler;
+
+        // Trigger the event
+        publisher.TriggerEvent();  // Output: Event received!
+    }
+}
+    </code></pre>
+
+    <h4>2. Callback Methods:</h4>
+    <p>Delegates are used for callback methods, which are methods passed as arguments to other methods, to be called back at a later time.</p>
+    <pre><code>
+using System;
+
+public class Program
+{
+    public delegate void Callback(int result);
+
+    public static void Main()
+    {
+        // Pass a method as a callback
+        PerformOperation(5, 3, DisplayResult);
+    }
+
+    public static void PerformOperation(int a, int b, Callback callback)
+    {
+        int result = a + b;
+        callback(result);  // Invoke the callback
+    }
+
+    public static void DisplayResult(int result)
+    {
+        Console.WriteLine("Result: " + result);  // Output: Result: 8
+    }
+}
+    </code></pre>
+
+    <h4>3. LINQ Queries:</h4>
+    <p>Delegates are used in LINQ (Language Integrated Query) to define predicates and projections for querying data.</p>
+    <pre><code>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Program
+{
+    public static void Main()
+    {
+        List<int> numbers = new List<int> { 1, 2, 3, 4, 5 };
+
+        // Define a Func delegate for filtering
+        Func<int, bool> isEven = n => n % 2 == 0;
+
+        // Define a Func delegate for projecting
+        Func<int, int> square = n => n * n;
+
+        // Use Func in LINQ queries
+        IEnumerable<int> evenNumbers = numbers.Where(isEven);
+        IEnumerable<int> squaredNumbers = numbers.Select(square);
+
+        Console.WriteLine("Even numbers: " + string.Join(", ", evenNumbers));
+        Console.WriteLine("Squared numbers: " + string.Join(", ", squaredNumbers));
+    }
+}
+    </code></pre>
+
+    <h3>Summary</h3>
+    <p>Delegates are type-safe function pointers that encapsulate methods and allow them to be invoked indirectly. They are extensively used for event handling, callback methods, and LINQ queries. <strong>Func</strong> is a specific type of delegate used for methods that return values and can have up to 16 input parameters.</p>
+    <p>Delegates provide flexibility and decoupling in method invocations, making them an essential tool in C# programming.</p>
+
+`,
+
+'dotnet-viewbag-viewdata-tempdata':`
+<h2>ViewData, ViewBag, and TempData</h2>
+
+    <h3>ViewData</h3>
+    <p><strong>Definition:</strong> <code>ViewData</code> is a dictionary object derived from <code>ViewDataDictionary</code>. It is used to pass data from a controller to a view.</p>
+    <p><strong>Lifetime:</strong> It only lasts for the duration of the current request. If you need to pass data between multiple requests, <code>ViewData</code> will not work.</p>
+    <p><strong>Usage:</strong> It requires casting when retrieving data, which can lead to runtime errors if the type is incorrect.</p>
+    <pre><code>// Controller
+public ActionResult Index()
+{
+    ViewData["Message"] = "Hello from ViewData!";
+    return View();
+}
+
+// View (Index.cshtml)
+<p>@ViewData["Message"]</p>
+    </code></pre>
+
+    <h3>ViewBag</h3>
+    <p><strong>Definition:</strong> <code>ViewBag</code> is a dynamic property that provides a more convenient way to pass data from a controller to a view. It is essentially a wrapper around <code>ViewData</code> and uses the dynamic type to avoid casting.</p>
+    <p><strong>Lifetime:</strong> Like <code>ViewData</code>, it only lasts for the duration of the current request.</p>
+    <p><strong>Usage:</strong> It simplifies data access by avoiding the need for casting and is more flexible but lacks compile-time checking.</p>
+    <pre><code>// Controller
+public ActionResult Index()
+{
+    ViewBag.Message = "Hello from ViewBag!";
+    return View();
+}
+
+// View (Index.cshtml)
+<p>@ViewBag.Message</p>
+    </code></pre>
+
+    <h3>TempData</h3>
+    <p><strong>Definition:</strong> <code>TempData</code> is a dictionary object derived from <code>TempDataDictionary</code>. It is used to pass data between requests, making it suitable for redirect scenarios where you need to preserve data temporarily.</p>
+    <p><strong>Lifetime:</strong> It persists for the duration of the current and the next request. After that, the data is cleared.</p>
+    <p><strong>Usage:</strong> It is useful for passing data between different actions or during redirects.</p>
+    <pre><code>// Controller
+public ActionResult SetMessage()
+{
+    TempData["Message"] = "Hello from TempData!";
+    return RedirectToAction("GetMessage");
+}
+
+public ActionResult GetMessage()
+{
+    ViewBag.Message = TempData["Message"];
+    return View();
+}
+
+// View (GetMessage.cshtml)
+<p>@ViewBag.Message</p>
+    </code></pre>
+
+
+        <h2>Type Casting Requirements</h2>
+
+    <p><strong>ViewData:</strong> Requires type casting when retrieving data. Since <code>ViewData</code> stores values as <code>object</code>, you need to cast the object to the appropriate type.</p>
+    <pre><code>// Controller
+public ActionResult Index()
+{
+    ViewData["Message"] = "Hello from ViewData!";
+    return View();
+}
+
+// View (Index.cshtml)
+&lt;p&gt;@((string)ViewData["Message"])&lt;/p&gt;
+    </code></pre>
+
+    <p><strong>ViewBag:</strong> Does not require type casting. <code>ViewBag</code> uses dynamic properties, so you can directly use the data without casting.</p>
+    <pre><code>// Controller
+public ActionResult Index()
+{
+    ViewBag.Message = "Hello from ViewBag!";
+    return View();
+}
+
+// View (Index.cshtml)
+&lt;p&gt;@ViewBag.Message&lt;/p&gt;
+    </code></pre>
+
+    <p><strong>TempData:</strong> Requires type casting when retrieving data. Similar to <code>ViewData</code>, <code>TempData</code> stores values as <code>object</code>, so you need to cast to the expected type.</p>
+    <pre><code>// Controller
+public ActionResult SetMessage()
+{
+    TempData["Message"] = "Hello from TempData!";
+    return RedirectToAction("GetMessage");
+}
+
+public ActionResult GetMessage()
+{
+    ViewBag.Message = (string)TempData["Message"];
+    return View();
+}
+
+// View (GetMessage.cshtml)
+&lt;p&gt;@ViewBag.Message&lt;/p&gt;
+    </code></pre>
+
+
+    <h3>Summary</h3>
+    <p><strong>ViewData:</strong> Used to pass data from a controller to a view. Requires type casting and is only available for the current request.</p>
+    <p><strong>ViewBag:</strong> Provides a dynamic way to pass data from a controller to a view, avoiding type casting. It is also only available for the current request.</p>
+    <p><strong>TempData:</strong> Used to pass data between requests, typically during redirects. It persists for the current and the next request.</p>
+
+`,
+
+
+
     //VAR DYNAMIC
-    'dotnet-var-dynamic': `
+    'general-var-dynamic': `
     <h1>Difference between var and dynamic Keywords</h1>
 
 <p>In C#, both <code>var</code> and <code>dynamic</code> are used to declare variables, but they behave very differently in terms of type inference, compile-time checks, and runtime behavior. Here's a detailed comparison of the two:</p>
@@ -1628,7 +1954,7 @@ public class LogActionFilter : IActionFilter
 
 
     //DEPEDENCY INJECTION
-    'dotnet-dependency-injection': `
+    'general-dependency-injection': `
     <h2>Dependency Injection</h2>
 
 <p>Dependency Injection (DI) is a design pattern and a technique used in software development to achieve Inversion of Control (IoC) between classes and their dependencies. The primary goal of DI is to reduce the coupling between components in a system, making the system more modular, testable, and maintainable.</p>
@@ -1770,7 +2096,7 @@ public class HomeController : Controller
 
 
     //SERVICE LIFETIMES
-    'dotnet-service-lifetimes': `
+    'general-service-lifetimes': `
       <h2>Service Lifetimes</h2>
 
 <p>In ASP.NET Core, service lifetimes define how long a service instance should be used and how it should be managed by the Dependency Injection (DI) container. There are three main service lifetimes:</p>
@@ -2703,7 +3029,7 @@ string userName = (string)Session["UserName"];
 
 
     //MVC ROUTING
-    'general-mvc-routing': `
+    'dotnet-mvc-routing': `
     <h3>Types of MVC Routing</h3>
 <p>In ASP.NET MVC (Model-View-Controller), routing is the mechanism that maps incoming requests (URLs) to specific controller actions. The routing system is highly flexible and supports multiple types of routing patterns. Below are the different types of routing concepts used in ASP.NET MVC:</p>
 
@@ -3126,7 +3452,7 @@ Session.Abandon();
 
 
     //CONTROLLER ACTION RETURN TYPES
-    'general-action-return-types': `
+    'dotnet-action-return-types': `
       <div>
     <h2>Different Return Types of a Controller Action Method</h2>
     <p>In ASP.NET MVC, a controller action method can return different types based on the intended result. The return type determines what the action sends back to the client. Here are the most commonly used return types:</p>
@@ -3315,7 +3641,7 @@ Session.Abandon();
 
 
       //ACTIONRESULT VIEWRESULT
-    'general-actionresult-viewresult': `
+    'dotnet-actionresult-viewresult': `
     <div>
     <h2>ActionResult and ViewResult</h2>
     <p>In ASP.NET MVC, both ActionResult and ViewResult are commonly used return types for controller action methods. They serve different purposes and offer different levels of abstraction. Here’s a breakdown of each:</p>
@@ -3438,7 +3764,347 @@ public ActionResult Contact()
     <p>In summary, ActionResult provides a flexible way to return various types of responses from a controller action, while ViewResult is specifically for rendering views. Using ActionResult allows for more dynamic responses, while ViewResult is used when you specifically need to return a view to the client.</p>
 </div>
 
-    `
+    `,
+
+
+    'dotnet-mvc':`
+    <div>
+    <h2>Model-View-Controller (MVC) in .NET</h2>
+
+    <h3>1. Model</h3>
+    <p><strong>Definition:</strong> The Model represents the data and business logic of the application. It is responsible for retrieving data from the database, processing it, and returning it to the controller or view.</p>
+    <p><strong>Key Characteristics:</strong></p>
+    <ul>
+        <li><strong>Data Representation:</strong> Encapsulates data and the business logic.</li>
+        <li><strong>Data Handling:</strong> Interacts with the database or other data sources.</li>
+        <li><strong>Business Rules:</strong> Applies business rules to the data.</li>
+    </ul>
+    <p><strong>Example:</strong></p>
+    <pre><code>
+public class Product
+{
+    public int ProductId { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+    </code></pre>
+
+    <h3>2. View</h3>
+    <p><strong>Definition:</strong> The View is responsible for presenting the data to the user. It generates the user interface and displays data that is provided by the model.</p>
+    <p><strong>Key Characteristics:</strong></p>
+    <ul>
+        <li><strong>UI Representation:</strong> Defines how data should be presented to the user.</li>
+        <li><strong>User Interaction:</strong> Provides the layout and controls for user interaction.</li>
+        <li><strong>Rendering:</strong> Can use technologies like Razor for dynamic HTML generation.</li>
+    </ul>
+    <p><strong>Example:</strong></p>
+     <pre>
+        <code>
+            @model Product
+
+            &lt;!DOCTYPE html&gt;
+            &lt;html&gt;
+            &lt;head&gt;
+                &lt;title&gt;Product Details&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+                &lt;h1&gt;@Model.Name&lt;/h1&gt;
+                &lt;p&gt;Price: @Model.Price&lt;/p&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+        </code>
+    </pre>
+
+    <h3>3. Controller</h3>
+    <p><strong>Definition:</strong> The Controller acts as an intermediary between the Model and the View. It handles user input, processes it (with the help of the Model), and returns the appropriate View to the user.</p>
+    <p><strong>Key Characteristics:</strong></p>
+    <ul>
+        <li><strong>Request Handling:</strong> Receives and processes user input.</li>
+        <li><strong>Data Coordination:</strong> Retrieves data from the Model and decides which View to render.</li>
+        <li><strong>Action Methods:</strong> Contains methods that handle incoming requests and return responses.</li>
+    </ul>
+    <p><strong>Example:</strong></p>
+    <pre><code>
+public class ProductController : Controller
+{
+    public ActionResult Details(int id)
+    {
+        // Retrieve data from the model
+        var product = new Product { ProductId = id, Name = "Sample Product", Price = 100.00M };
+        
+        // Pass data to the view
+        return View(product);
+    }
+}
+    </code></pre>
+
+    <h3>Key Features of MVC in .NET:</h3>
+    <ul>
+        <li><strong>Separation of Concerns:</strong> MVC helps in separating the application into three distinct components, which simplifies maintenance and development.</li>
+        <li><strong>Testability:</strong> Allows for easier unit testing of the application, as each component can be tested independently.</li>
+        <li><strong>Scalability:</strong> Supports the development of scalable and modular applications.</li>
+        <li><strong>Flexible Routing:</strong> Allows for custom routing of requests to controllers and actions.</li>
+    </ul>
+
+    <h3>Summary</h3>
+    <ul>
+        <li><strong>Model:</strong> Manages data and business logic.</li>
+        <li><strong>View:</strong> Handles the presentation layer.</li>
+        <li><strong>Controller:</strong> Manages user input and interacts with the Model and View.</li>
+    </ul>
+    <p>MVC is widely used in ASP.NET MVC and ASP.NET Core MVC frameworks, providing a robust architecture for developing web applications with clean separation between the data, user interface, and application logic.</p>
+</div>
+
+    `,
+    'general-authentication-authorization':`
+        <h2>Authentication vs. Authorization</h2>
+
+    <p>Authentication and Authorization are two fundamental concepts in security that are often used together but serve distinct purposes. Here’s a breakdown of each:</p>
+
+    <h3>Authentication</h3>
+    <p><strong>Definition:</strong> Authentication is the process of verifying the identity of a user or system. It answers the question, "Who are you?"</p>
+    <p><strong>Purpose:</strong> The primary goal of authentication is to ensure that the entity requesting access is who it claims to be.</p>
+    <p><strong>How It Works:</strong></p>
+    <ul>
+        <li><strong>Login Process:</strong> Users provide credentials (e.g., username and password) to a system.</li>
+        <li><strong>Verification:</strong> The system verifies the credentials against a database or an authentication service.</li>
+        <li><strong>Result:</strong> If the credentials are valid, the user is authenticated.</li>
+    </ul>
+    <p><strong>Example:</strong> When you log in to your email account, you enter your username and password. The email service checks these credentials against its records to confirm your identity.</p>
+
+    <p><strong>Common Methods:</strong></p>
+    <ul>
+        <li>Username and Password</li>
+        <li>Two-Factor Authentication (2FA)</li>
+        <li>Biometric Authentication (e.g., fingerprints, facial recognition)</li>
+        <li>OAuth, OpenID Connect</li>
+    </ul>
+
+    <h3>Authorization</h3>
+    <p><strong>Definition:</strong> Authorization is the process of determining whether a user or system has permission to perform a specific action or access certain resources. It answers the question, "What are you allowed to do?"</p>
+    <p><strong>Purpose:</strong> The primary goal of authorization is to ensure that authenticated users have the appropriate permissions to access resources or perform actions.</p>
+    <p><strong>How It Works:</strong></p>
+    <ul>
+        <li><strong>Permission Checks:</strong> Once authenticated, the system checks the user's permissions or roles.</li>
+        <li><strong>Access Control:</strong> The system grants or denies access to resources based on these permissions.</li>
+    </ul>
+    <p><strong>Example:</strong> After logging into your email account, authorization determines whether you can read your emails, send new ones, or access administrative settings based on your account role.</p>
+
+    <p><strong>Common Methods:</strong></p>
+    <ul>
+        <li>Role-Based Access Control (RBAC)</li>
+        <li>Attribute-Based Access Control (ABAC)</li>
+        <li>Policy-Based Access Control (PBAC)</li>
+    </ul>
+
+    <h3>Which Comes First?</h3>
+    <p><strong>Authentication comes before Authorization.</strong> Here’s why:</p>
+    <ul>
+        <li><strong>Authentication First:</strong> Before you can determine what actions a user is allowed to perform, you first need to confirm their identity. Authentication is the process of identifying the user.</li>
+        <li><strong>Authorization Next:</strong> Once the user’s identity is verified through authentication, you then determine what the user is allowed to do. Authorization processes are based on the identity confirmed during authentication.</li>
+    </ul>
+    <p><strong>Workflow Example:</strong></p>
+    <ul>
+        <li>User Login: The user provides credentials (authentication).</li>
+        <li>Verify Credentials: The system checks if the credentials are correct.</li>
+        <li>Access Permissions: If the credentials are valid, the system checks what resources or actions the user is authorized to access (authorization).</li>
+    </ul>
+    `,
+    'general-jwt':`
+    <h1>JSON Web Token (JWT)</h1>
+    
+    <h2>Definition</h2>
+    <p>JWT is a compact, URL-safe token format that encodes data in a JSON format. It is used to securely transmit information between parties and can be used for various purposes, including authentication and information exchange.</p>
+    
+    <h2>Structure</h2>
+    <p>A JWT consists of three parts separated by periods (<code>.</code>):</p>
+    
+    <h3>1. Header</h3>
+    <p>Contains metadata about the token, such as the type of token and the signing algorithm used.</p>
+    <pre><code>{
+  "alg": "HS256",
+  "typ": "JWT"
+}</code></pre>
+    <p>Encoded as Base64Url string.</p>
+    
+    <h3>2. Payload</h3>
+    <p>Contains the claims or the actual data you want to transmit. Claims can be of three types:</p>
+    <ul>
+        <li><strong>Registered Claims:</strong> Standard claims such as <code>iss</code> (issuer), <code>exp</code> (expiration), and <code>sub</code> (subject).</li>
+        <li><strong>Public Claims:</strong> Custom claims that can be registered in the IANA JSON Web Token Registry.</li>
+        <li><strong>Private Claims:</strong> Custom claims agreed upon between parties.</li>
+    </ul>
+    <pre><code>{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "admin": true
+}</code></pre>
+    <p>Encoded as Base64Url string.</p>
+    
+    <h3>3. Signature</h3>
+    <p>Used to verify that the token has not been altered. It is created by combining the encoded header and payload with a secret key and applying the specified algorithm.</p>
+    <pre><code>HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)</code></pre>
+    <p>Encoded as Base64Url string.</p>
+    
+    <h2>How It Works</h2>
+    <ol>
+        <li><strong>Token Creation:</strong> The server creates a JWT using the header and payload, then signs it with a secret key or private key.</li>
+        <li><strong>Token Transmission:</strong> The server sends the JWT to the client, usually in the form of an HTTP header, cookie, or URL parameter.</li>
+        <li><strong>Token Usage:</strong> The client includes the JWT in the HTTP requests to access protected resources.</li>
+        <li><strong>Token Verification:</strong> The server receives the JWT, verifies the signature using the secret or public key, and processes the claims to grant or deny access.</li>
+    </ol>
+    
+    <h2>Benefits</h2>
+    <ul>
+        <li><strong>Stateless:</strong> JWTs are self-contained; they include all necessary information, eliminating the need for server-side sessions.</li>
+        <li><strong>Compact:</strong> JWTs are compact and URL-safe, making them ideal for transmission over HTTP headers.</li>
+        <li><strong>Scalable:</strong> Being stateless makes JWTs scalable and suitable for distributed systems.</li>
+    </ul>
+    
+    <h2>Common Use Cases</h2>
+    <ul>
+        <li><strong>Authentication:</strong> Once a user logs in, a JWT can be issued and used to authenticate subsequent requests.</li>
+        <li><strong>Authorization:</strong> JWTs can be used to verify the user’s permissions and roles in an application.</li>
+    </ul>
+    
+    <h2>Example</h2>
+    <h3>Creating and Sending a JWT:</h3>
+    <pre><code>// Create a token
+var tokenHandler = new JwtSecurityTokenHandler();
+var key = Encoding.ASCII.GetBytes("your_secret_key");
+var tokenDescriptor = new SecurityTokenDescriptor
+{
+    Subject = new ClaimsIdentity(new Claim[]
+    {
+        new Claim(ClaimTypes.Name, "John Doe"),
+        new Claim(ClaimTypes.Role, "Admin")
+    }),
+    Expires = DateTime.UtcNow.AddHours(1),
+    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+};
+var token = tokenHandler.CreateToken(tokenDescriptor);
+var tokenString = tokenHandler.WriteToken(token);</code></pre>
+    
+    <h3>Sending JWT in a Request:</h3>
+    <pre><code>GET /api/values HTTP/1.1
+Host: example.com
+Authorization: Bearer &lt;your_jwt_token&gt;</code></pre>
+    
+    <h3>Verifying JWT:</h3>
+    <pre><code>var tokenHandler = new JwtSecurityTokenHandler();
+var key = Encoding.ASCII.GetBytes("your_secret_key");
+tokenHandler.ValidateToken(tokenString, new TokenValidationParameters
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(key),
+    ValidateIssuer = false,
+    ValidateAudience = false
+}, out SecurityToken validatedToken);</code></pre>
+    
+    <p>By understanding JWT, you can effectively manage authentication and authorization in your web applications, ensuring secure and efficient communication between clients and servers.</p>
+
+    `,
+'general-open-close-principle':`
+    <h1>Open/Closed Principle (OCP) in C#</h1>
+
+    <h2>Definition</h2>
+    <ul>
+        <li><strong>Open for Extension:</strong> The behavior of a module can be extended or enhanced without modifying its source code.</li>
+        <li><strong>Closed for Modification:</strong> The source code of a module should not be changed once it is developed and tested.</li>
+    </ul>
+
+    <h2>Purpose</h2>
+    <p>The purpose of the Open/Closed Principle is to reduce the risk of introducing bugs when changes are made and to allow the system to grow by adding new features without altering existing code.</p>
+
+    <h2>How It Works</h2>
+    <p>To adhere to the Open/Closed Principle, you typically use abstractions such as interfaces or abstract classes to define the core behavior. Then, you create concrete implementations that extend this behavior. This way, you can add new features or change behavior by adding new classes or methods rather than modifying existing ones.</p>
+
+    <h2>Example</h2>
+    <h3>Without Open/Closed Principle:</h3>
+    <pre><code>
+public class AreaCalculator
+{
+    public double CalculateArea(Rectangle rectangle)
+    {
+        return rectangle.Width * rectangle.Height;
+    }
+
+    public double CalculateArea(Circle circle)
+    {
+        return Math.PI * circle.Radius * circle.Radius;
+    }
+}
+
+public class Rectangle
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+}
+
+public class Circle
+{
+    public double Radius { get; set; }
+}
+    </code></pre>
+    <p>In this example, if you want to add a new shape (e.g., Triangle), you have to modify the <code>AreaCalculator</code> class to include a new method for calculating the area of the triangle.</p>
+
+    <h3>With Open/Closed Principle:</h3>
+    <pre><code>
+public interface IShape
+{
+    double CalculateArea();
+}
+
+public class Rectangle : IShape
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+
+    public double CalculateArea()
+    {
+        return Width * Height;
+    }
+}
+
+public class Circle : IShape
+{
+    public double Radius { get; set; }
+
+    public double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+}
+
+public class AreaCalculator
+{
+    public double CalculateArea(IShape shape)
+    {
+        return shape.CalculateArea();
+    }
+}
+    </code></pre>
+    <p>In this revised example:</p>
+    <ul>
+        <li><code>IShape</code> is an interface with a method <code>CalculateArea()</code>.</li>
+        <li><code>Rectangle</code> and <code>Circle</code> implement this interface.</li>
+        <li><code>AreaCalculator</code> uses the <code>IShape</code> interface to calculate the area, making it open for extension (you can add new shapes) but closed for modification (no need to modify the <code>AreaCalculator</code> class).</li>
+    </ul>
+
+    <h2>Benefits</h2>
+    <ul>
+        <li><strong>Maintainability:</strong> Changes in one part of the system do not require changes in other parts.</li>
+        <li><strong>Flexibility:</strong> New functionality can be added with minimal impact on existing code.</li>
+        <li><strong>Scalability:</strong> The system can grow more easily as new requirements arise.</li>
+    </ul>
+
+    <h2>Summary</h2>
+    <p>The Open/Closed Principle encourages designing your software so that it can accommodate new requirements and extensions without modifying existing code. By using abstractions and defining clear contracts, you make your system more robust and easier to maintain over time.</p>
+
+`
   };
   
   function showContent(topic) {
