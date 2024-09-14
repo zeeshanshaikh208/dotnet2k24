@@ -516,6 +516,304 @@ public class MyDataModel
 
 `,
 
+
+//WEB API ERROR HANDLING
+'dotnet-webapi-error-handling':`
+<h2>Error Handling in Web API</h2>
+
+<p>Error handling in ASP.NET Web API is essential for creating robust and user-friendly web services. Proper error handling helps to ensure that errors are managed gracefully, providing meaningful responses to clients and maintaining the integrity of the application. Here's an overview of how to handle errors in Web API:</p>
+
+<h3>1. Handling Errors in Controllers</h3>
+<h4>Try-Catch Blocks:</h4>
+<p><strong>Usage:</strong> Use try-catch blocks within your action methods to catch exceptions and handle them accordingly.</p>
+
+<pre>
+<code>
+public class ValuesController : ApiController
+{
+    public IHttpActionResult Get()
+    {
+        try
+        {
+            // Some operation that might throw an exception
+            var result = SomeOperation();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception and return a meaningful response
+            return InternalServerError(ex);
+        }
+    }
+}
+</code>
+</pre>
+
+<h3>2. Global Error Handling</h3>
+<h4>Exception Filters:</h4>
+<p><strong>Definition:</strong> Exception filters are used to handle exceptions thrown by Web API controllers and actions globally.</p>
+<p><strong>Usage:</strong> Implement custom exception filters by deriving from <code>ExceptionFilterAttribute</code>.</p>
+
+<pre>
+<code>
+public class GlobalExceptionFilter : ExceptionFilterAttribute
+{
+    public override void OnException(HttpActionExecutedContext context)
+    {
+        // Log the exception
+        // Handle and format the exception response
+        context.Response = context.Request.CreateResponse(HttpStatusCode.InternalServerError, 
+            new { message = "An unexpected error occurred." });
+    }
+}
+
+// Register the filter globally in WebApiConfig
+public static class WebApiConfig
+{
+    public static void Register(HttpConfiguration config)
+    {
+        config.Filters.Add(new GlobalExceptionFilter());
+    }
+}
+</code>
+</pre>
+
+<h4>Exception Handling Middleware (ASP.NET Core):</h4>
+<p><strong>Definition:</strong> Middleware can be used to handle exceptions in ASP.NET Core Web API.</p>
+<p><strong>Usage:</strong> Configure exception handling middleware in the Startup class.</p>
+
+<pre>
+<code>
+public class Startup
+{
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseExceptionHandler("/Home/Error"); // For production
+        // For development
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+            app.UseHsts();
+        }
+        // Other middleware
+    }
+}
+</code>
+</pre>
+
+<h3>3. Custom Error Responses</h3>
+<h4>Creating Custom Error Responses:</h4>
+<p><strong>Definition:</strong> Custom error responses provide more context about the error and improve client understanding.</p>
+<p><strong>Usage:</strong> Customize error responses by creating a structured error model.</p>
+
+<pre>
+<code>
+public class ErrorResponse
+{
+    public string Message { get; set; }
+    public string Details { get; set; }
+}
+
+public class ValuesController : ApiController
+{
+    public IHttpActionResult Get()
+    {
+        try
+        {
+            // Some operation
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            var errorResponse = new ErrorResponse
+            {
+                Message = "An error occurred.",
+                Details = ex.Message
+            };
+            return InternalServerError(errorResponse);
+        }
+    }
+}
+</code>
+</pre>
+
+<h3>4. Logging Errors</h3>
+<h4>Logging:</h4>
+<p><strong>Definition:</strong> Logging is important for tracking errors and diagnosing issues.</p>
+<p><strong>Usage:</strong> Use logging frameworks like NLog, Serilog, or built-in logging in ASP.NET Core to log error details.</p>
+
+<pre>
+<code>
+public class ValuesController : ApiController
+{
+    private readonly ILogger&lt;ValuesController&gt; _logger;
+    
+    public ValuesController(ILogger&lt;ValuesController&gt; logger)
+    {
+        _logger = logger;
+    }
+    
+    public IHttpActionResult Get()
+    {
+        try
+        {
+            // Some operation
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while processing the request.");
+            return InternalServerError();
+        }
+    }
+}
+</code>
+</pre>
+
+<h3>5. Return Appropriate Status Codes</h3>
+<h4>HTTP Status Codes:</h4>
+<p><strong>Definition:</strong> Return appropriate HTTP status codes to represent the error condition.</p>
+
+<p><strong>Common Codes:</strong></p>
+<ul>
+    <li>400 Bad Request: For client-side errors, such as validation failures.</li>
+    <li>401 Unauthorized: For authentication issues.</li>
+    <li>403 Forbidden: For authorization issues.</li>
+    <li>404 Not Found: For resources not found.</li>
+    <li>500 Internal Server Error: For unhandled server errors.</li>
+</ul>
+
+<pre>
+<code>
+public IHttpActionResult Get(int id)
+{
+    var item = GetItemById(id);
+    if (item == null)
+    {
+        return NotFound(); // 404
+    }
+    return Ok(item); // 200
+}
+</code>
+</pre>
+
+<h3>Summary</h3>
+<ul>
+    <li><strong>Try-Catch Blocks:</strong> Handle exceptions at the action level for specific operations.</li>
+    <li><strong>Exception Filters:</strong> Provide global handling and formatting of exceptions.</li>
+    <li><strong>Custom Error Responses:</strong> Return detailed error information in a structured format.</li>
+    <li><strong>Logging:</strong> Track and diagnose errors using logging frameworks.</li>
+    <li><strong>Appropriate Status Codes:</strong> Use correct HTTP status codes to indicate error conditions.</li>
+</ul>
+
+<p>Proper error handling in Web API helps to maintain application reliability and improves the overall user experience by providing meaningful feedback and ensuring errors are managed effectively.</p>
+
+`,
+
+//EXTENSION METHODS
+'dotnet-extension-methods':`
+<h2>Extension Methods in C#</h2>
+
+<p>Extension methods in C# are a way to "add" new methods to existing types without modifying their source code. This feature is particularly useful when you need to enhance the functionality of classes for which you do not have the source code or cannot modify them directly.</p>
+
+<h3>Key Concepts of Extension Methods</h3>
+<h4>Definition:</h4>
+<p>Extension methods allow you to define methods that can be called as if they were instance methods on the extended type. These methods are defined in static classes and use the <code>this</code> keyword in their parameter list to specify the type they extend.</p>
+
+<h4>Syntax:</h4>
+<p>An extension method is defined in a static class with a static method that has the <code>this</code> modifier before the first parameter. The parameter with the <code>this</code> keyword indicates the type that is being extended.</p>
+
+<h4>Usage:</h4>
+<p>Once defined, extension methods can be called on instances of the extended type as if they were instance methods.</p>
+
+<h3>Example</h3>
+<h4>Defining an Extension Method:</h4>
+<p>Here's how you can define an extension method for the <code>string</code> type to check if a string is a valid email address.</p>
+
+<pre>
+<code>
+using System;
+using System.Text.RegularExpressions;
+
+public static class StringExtensions
+{
+    public static bool IsValidEmail(this string email)
+    {
+        if (string.IsNullOrEmpty(email))
+            return false;
+        
+        try
+        {
+            var emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, emailPattern);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+}
+</code>
+</pre>
+
+<h4>Using the Extension Method:</h4>
+<p>Once the extension method is defined, you can use it like this:</p>
+
+<pre>
+<code>
+public class Program
+{
+    public static void Main()
+    {
+        string email = "test@example.com";
+        bool isValid = email.IsValidEmail();
+        
+        Console.WriteLine($"Is '{email}' a valid email? {isValid}");
+    }
+}
+</code>
+</pre>
+
+<h3>Key Points</h3>
+<ul>
+    <li><strong>Static Class:</strong> Extension methods must be defined in a static class.</li>
+    <li><strong>Static Method:</strong> The method itself must be static, and its first parameter specifies the type it extends using the <code>this</code> keyword.</li>
+    <li><strong>Namespace Import:</strong> To use an extension method, you need to include the namespace where the static class is defined.</li>
+    <li><strong>Overloading:</strong> Extension methods can be overloaded like regular methods. However, if there are multiple extension methods with the same name applicable to a type, you need to be cautious to avoid ambiguity.</li>
+    <li><strong>Extension Method Resolution:</strong> Extension methods are not considered if a method with the same name already exists on the type. They are only used if there is no method in the type or its base types with the same name and signature.</li>
+    <li><strong>Static Methods:</strong> While you can use extension methods to extend functionality, the actual implementation is still a static method. This means you cannot access instance-specific data from within the extension method.</li>
+</ul>
+
+<h3>Example of Overloading Extension Methods</h3>
+
+<pre>
+<code>
+public static class MathExtensions
+{
+    public static int Square(this int number)
+    {
+        return number * number;
+    }
+
+    public static double Square(this double number)
+    {
+        return number * number;
+    }
+}
+</code>
+</pre>
+
+<p>In this example, the <code>Square</code> method is overloaded to work with both <code>int</code> and <code>double</code> types.</p>
+
+<h3>Summary</h3>
+<p>Extension methods are a powerful feature in C# that allows you to add new methods to existing types in a non-intrusive way. They provide a clean and flexible way to enhance functionality without modifying the original types or classes.</p>
+
+`,
+
     //VAR DYNAMIC
     'dotnet-var-dynamic': `
     <h1>Difference between var and dynamic Keywords</h1>
@@ -662,9 +960,256 @@ obj.SomeNonExistentMethod(); // This will compile, but cause a runtime error
 
 
     //SOLID PRINCIPLES
-    'dotnet-solid-principles': `
-      <h3>SOLID Principles</h3>
-      <p>SOLID is an acronym for five design principles that make software designs more understandable, flexible, and maintainable.</p>
+    'general-solid-principles': `
+<h2>SOLID Principles</h2>
+
+<p>The SOLID principles are a set of five design principles in object-oriented programming aimed at making software more understandable, flexible, and maintainable. The SOLID acronym stands for:</p>
+<ul>
+    <li>Single Responsibility Principle (SRP)</li>
+    <li>Open/Closed Principle (OCP)</li>
+    <li>Liskov Substitution Principle (LSP)</li>
+    <li>Interface Segregation Principle (ISP)</li>
+    <li>Dependency Inversion Principle (DIP)</li>
+</ul>
+
+<h3>1. Single Responsibility Principle (SRP)</h3>
+<p><strong>Definition:</strong> A class should have only one reason to change, meaning it should have only one responsibility or job. Each class should address only one part of the functionality provided by the software.</p>
+<p><strong>Purpose:</strong> SRP helps to keep the system modular and reduce the impact of changes. When a class has only one responsibility, changes to one part of the system are less likely to affect other parts.</p>
+
+<pre><code>
+// Before applying SRP
+public class Report {
+    public string Title { get; set; }
+    
+    public void PrintReport() {
+        // Code to print the report
+    }
+    
+    public void SaveToFile() {
+        // Code to save the report to a file
+    }
+}
+
+// After applying SRP
+public class Report {
+    public string Title { get; set; }
+}
+
+public class ReportPrinter {
+    public void PrintReport(Report report) {
+        // Code to print the report
+    }
+}
+
+public class ReportSaver {
+    public void SaveToFile(Report report) {
+        // Code to save the report to a file
+    }
+}
+</code></pre>
+
+<h3>2. Open/Closed Principle (OCP)</h3>
+<p><strong>Definition:</strong> Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification. This means you should be able to extend the behavior of a class without changing its existing code.</p>
+<p><strong>Purpose:</strong> OCP encourages code reusability and helps to avoid introducing bugs when changes are made. By extending existing classes or interfaces, you can add new functionality without altering existing code.</p>
+
+<pre><code>
+// Before applying OCP
+public class AreaCalculator {
+    public double CalculateArea(Rectangle rectangle) {
+        return rectangle.Width * rectangle.Height;
+    }
+    
+    public double CalculateArea(Circle circle) {
+        return Math.PI * circle.Radius * circle.Radius;
+    }
+}
+
+// After applying OCP
+public interface IShape {
+    double CalculateArea();
+}
+
+public class Rectangle : IShape {
+    public double Width { get; set; }
+    public double Height { get; set; }
+    
+    public double CalculateArea() {
+        return Width * Height;
+    }
+}
+
+public class Circle : IShape {
+    public double Radius { get; set; }
+    
+    public double CalculateArea() {
+        return Math.PI * Radius * Radius;
+    }
+}
+
+public class AreaCalculator {
+    public double CalculateArea(IShape shape) {
+        return shape.CalculateArea();
+    }
+}
+</code></pre>
+
+<h3>3. Liskov Substitution Principle (LSP)</h3>
+<p><strong>Definition:</strong> Objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program. In other words, a derived class should be able to substitute its base class without altering the desired behavior of the program.</p>
+<p><strong>Purpose:</strong> LSP ensures that derived classes extend the base class without changing its behavior. This promotes the correct use of inheritance and helps to maintain consistency in behavior.</p>
+
+<pre><code>
+// Before applying LSP
+public class Bird {
+    public virtual void Fly() {
+        // Bird flying logic
+    }
+}
+
+public class Penguin : Bird {
+    public override void Fly() {
+        throw new NotSupportedException("Penguins can't fly");
+    }
+}
+
+// After applying LSP
+public abstract class Bird {
+    // Abstract class, no implementation here
+}
+
+public class Sparrow : Bird {
+    public void Fly() {
+        // Sparrow flying logic
+    }
+}
+
+public class Penguin : Bird {
+    // Penguin-specific logic, no fly method here
+}
+</code></pre>
+
+<h3>4. Interface Segregation Principle (ISP)</h3>
+<p><strong>Definition:</strong> Clients should not be forced to depend on interfaces they do not use. This means creating smaller, specific interfaces rather than one large, general-purpose interface.</p>
+<p><strong>Purpose:</strong> ISP helps to ensure that interfaces are more focused and that implementing classes are not burdened with methods they do not need. This promotes a more modular and easier-to-maintain codebase.</p>
+
+<pre><code>
+// Before applying ISP
+public interface IWorker {
+    void Work();
+    void Eat();
+}
+
+public class HumanWorker : IWorker {
+    public void Work() {
+        // Human working logic
+    }
+    
+    public void Eat() {
+        // Human eating logic
+    }
+}
+
+public class RobotWorker : IWorker {
+    public void Work() {
+        // Robot working logic
+    }
+    
+    public void Eat() {
+        // Not applicable for robots
+        throw new NotImplementedException();
+    }
+}
+
+// After applying ISP
+public interface IWorkable {
+    void Work();
+}
+
+public interface IFeedable {
+    void Eat();
+}
+
+public class HumanWorker : IWorkable, IFeedable {
+    public void Work() {
+        // Human working logic
+    }
+    
+    public void Eat() {
+        // Human eating logic
+    }
+}
+
+public class RobotWorker : IWorkable {
+    public void Work() {
+        // Robot working logic
+    }
+}
+</code></pre>
+
+<h3>5. Dependency Inversion Principle (DIP)</h3>
+<p><strong>Definition:</strong> High-level modules should not depend on low-level modules. Both should depend on abstractions (e.g., interfaces). Abstractions should not depend on details; details should depend on abstractions.</p>
+<p><strong>Purpose:</strong> DIP promotes loose coupling between components, making the system more flexible and easier to maintain. By depending on abstractions, you reduce the impact of changes and promote code reuse.</p>
+
+<pre><code>
+// Before applying DIP
+public class LightBulb {
+    public void TurnOn() { /* logic to turn on the light bulb */ }
+    public void TurnOff() { /* logic to turn off the light bulb */ }
+}
+
+public class Switch {
+    private LightBulb _lightBulb;
+    
+    public Switch(LightBulb lightBulb) {
+        _lightBulb = lightBulb;
+    }
+    
+    public void TurnOn() {
+        _lightBulb.TurnOn();
+    }
+    
+    public void TurnOff() {
+        _lightBulb.TurnOff();
+    }
+}
+
+// After applying DIP
+public interface ISwitchable {
+    void TurnOn();
+    void TurnOff();
+}
+
+public class LightBulb : ISwitchable {
+    public void TurnOn() { /* logic to turn on the light bulb */ }
+    public void TurnOff() { /* logic to turn off the light bulb */ }
+}
+
+public class Switch {
+    private readonly ISwitchable _device;
+    
+    public Switch(ISwitchable device) {
+        _device = device;
+    }
+    
+    public void TurnOn() {
+        _device.TurnOn();
+    }
+    
+    public void TurnOff() {
+        _device.TurnOff();
+    }
+}
+</code></pre>
+
+<h3>Summary</h3>
+<p>The SOLID principles guide developers in creating systems that are easier to manage, extend, and understand. Applying these principles helps to ensure that your codebase is modular, scalable, and maintainable:</p>
+<ul>
+    <li><strong>SRP:</strong> Keep classes focused on a single responsibility.</li>
+    <li><strong>OCP:</strong> Allow classes to be extended without modifying their existing code.</li>
+    <li><strong>LSP:</strong> Ensure derived classes can substitute their base classes without altering program behavior.</li>
+    <li><strong>ISP:</strong> Use focused, smaller interfaces rather than large, general-purpose ones.</li>
+    <li><strong>DIP:</strong> Depend on abstractions rather than concrete implementations to reduce coupling.</li>
+</ul>
+
     `,
 
     //MINIFICATION BUNDLING
@@ -1357,6 +1902,489 @@ public class TransientService : ITransientService
 <p>By properly selecting the service lifetime based on the needs of your application, you can optimize performance, manage resource usage effectively, and ensure that your services operate as intended.</p>
 
     `,
+
+
+//REFLECTION
+'dotnet-reflection':`
+<h2>Reflection in .NET</h2>
+<p>
+    <strong>Reflection</strong> in .NET is a powerful feature that allows a program to inspect and interact with its own metadata, such as information about types, methods, properties, and fields, at runtime. It provides the ability to dynamically create objects, invoke methods, and access or modify fields and properties, without knowing the types at compile time.
+</p>
+
+<h3>Key Concepts of Reflection:</h3>
+<ol>
+    <li>
+        <strong>Metadata</strong>: Every assembly in .NET contains metadata that describes the types defined in the assembly, such as classes, interfaces, methods, properties, events, and attributes. Reflection allows you to read and manipulate this metadata.
+    </li>
+    <li>
+        <strong>Reflection Namespace</strong>: Reflection functionality in .NET is provided by classes in the <code>System.Reflection</code> namespace. Some of the key classes include:
+        <ul>
+            <li><code>Assembly</code>: Represents an assembly.</li>
+            <li><code>Type</code>: Represents type declarations, including classes, interfaces, and value types.</li>
+            <li><code>MethodInfo</code>: Represents a method.</li>
+            <li><code>PropertyInfo</code>: Represents a property.</li>
+            <li><code>FieldInfo</code>: Represents a field.</li>
+            <li><code>ConstructorInfo</code>: Represents a constructor.</li>
+        </ul>
+    </li>
+</ol>
+
+<h3>Common Use Cases for Reflection:</h3>
+<ol>
+    <li>
+        <strong>Inspecting Metadata:</strong> Reflection allows you to examine information about the structure of types, such as what methods, properties, fields, and events are available on a class.
+        <pre><code>
+Type type = typeof(String);
+Console.WriteLine("Methods in String class:");
+foreach (MethodInfo method in type.GetMethods())
+{
+    Console.WriteLine(method.Name);
+}
+        </code></pre>
+    </li>
+    <li>
+        <strong>Dynamically Invoking Methods:</strong> Reflection can be used to invoke methods dynamically at runtime, even if you don’t know the method’s name at compile time.
+        <pre><code>
+Type type = typeof(Math);
+MethodInfo method = type.GetMethod("Pow");
+object result = method.Invoke(null, new object[] { 2, 3 });
+Console.WriteLine(result);  // Output: 8
+        </code></pre>
+    </li>
+    <li>
+        <strong>Creating Instances of Types Dynamically:</strong> You can use reflection to instantiate objects of types that are not known until runtime.
+        <pre><code>
+Type type = typeof(List<int>);
+object instance = Activator.CreateInstance(type);
+        </code></pre>
+    </li>
+    <li>
+        <strong>Accessing Fields and Properties:</strong> Reflection can be used to get or set the values of fields and properties at runtime, even private fields.
+        <pre><code>
+class Person
+{
+    public string Name { get; set; }
+    private int age = 30;
+}
+
+Person person = new Person();
+Type type = person.GetType();
+PropertyInfo nameProp = type.GetProperty("Name");
+FieldInfo ageField = type.GetField("age", BindingFlags.NonPublic | BindingFlags.Instance);
+
+nameProp.SetValue(person, "John");
+int age = (int)ageField.GetValue(person);
+Console.WriteLine($"Name: {person.Name}, Age: {age}");
+        </code></pre>
+    </li>
+    <li>
+        <strong>Accessing Custom Attributes:</strong> Reflection is also used to access custom attributes applied to classes, methods, or properties.
+        <pre><code>
+[Obsolete("Use NewMethod instead.")]
+public void OldMethod() {}
+
+MethodInfo methodInfo = typeof(Program).GetMethod("OldMethod");
+var attributes = methodInfo.GetCustomAttributes(typeof(ObsoleteAttribute), false);
+if (attributes.Length > 0)
+{
+    Console.WriteLine("OldMethod is marked obsolete.");
+}
+        </code></pre>
+    </li>
+</ol>
+
+<h3>Advantages of Reflection:</h3>
+<ul>
+    <li><strong>Dynamic Behavior:</strong> Reflection provides flexibility by allowing you to work with types that are only known at runtime.</li>
+    <li><strong>Useful in Frameworks and Libraries:</strong> It is widely used in frameworks like dependency injection containers, object-relational mappers (ORMs), serialization libraries, and testing frameworks.</li>
+</ul>
+
+<h3>Disadvantages of Reflection:</h3>
+<ul>
+    <li><strong>Performance Overhead:</strong> Reflection is slower compared to regular method calls or field accesses because it involves runtime type checking and metadata lookups.</li>
+    <li><strong>Complexity:</strong> Reflection can make code more difficult to read and maintain, especially when dealing with dynamic types.</li>
+    <li><strong>Security Risks:</strong> Using reflection to access private members can break encapsulation and lead to unintended side effects or security vulnerabilities.</li>
+</ul>
+
+<h3>Summary:</h3>
+<p>
+    Reflection in .NET allows developers to inspect and manipulate types, objects, and members at runtime. While it provides powerful functionality, it should be used judiciously due to its performance cost and complexity.
+</p>
+
+`,
+
+
+//WEB API AND REST API
+'dotnet-webapi':`
+<div>
+    <h2>What is an API?</h2>
+    <p><strong>API (Application Programming Interface)</strong> is a set of rules and tools that allow different software applications to communicate with each other. APIs define the methods and data formats that applications can use to request and exchange information. They act as an intermediary that enables software components to interact without knowing the implementation details of each other.</p>
+
+    <h3>Key Features of APIs:</h3>
+    <ul>
+        <li><strong>Abstraction:</strong> APIs provide a simplified interface for interacting with complex systems or services.</li>
+        <li><strong>Modularity:</strong> They allow different parts of a system to work together, making it easier to update or replace components.</li>
+        <li><strong>Reusability:</strong> APIs enable developers to use existing functionalities, reducing the need to build from scratch.</li>
+        <li><strong>Interoperability:</strong> They facilitate communication between different systems, often across different programming languages or platforms.</li>
+    </ul>
+
+    <h3>Examples of APIs:</h3>
+    <ul>
+        <li><strong>Web APIs:</strong> Such as those provided by social media platforms (e.g., Twitter API) or payment gateways (e.g., PayPal API).</li>
+        <li><strong>Library APIs:</strong> Provided by software libraries or frameworks, allowing developers to use predefined functions and classes.</li>
+    </ul>
+
+    <h2>What is a REST API?</h2>
+    <p><strong>REST (Representational State Transfer)</strong> is a style of architecture used for designing networked applications. A <strong>REST API</strong> is a web service that adheres to the principles of REST and allows clients to interact with resources using standard HTTP methods. RESTful APIs are stateless, meaning that each request from a client to the server must contain all the information needed to understand and process the request.</p>
+
+    <h3>Key Principles of REST:</h3>
+    <ul>
+        <li><strong>Stateless:</strong> Each request from a client to a server must contain all the information needed to understand and process the request. The server does not store any state between requests.</li>
+        <li><strong>Client-Server Architecture:</strong> The client and server are separate entities, with the client responsible for the user interface and the server responsible for processing requests and managing resources.</li>
+        <li><strong>Uniform Interface:</strong> REST APIs use standard HTTP methods (GET, POST, PUT, DELETE) and have a consistent way to access and manipulate resources.</li>
+        <li><strong>Resource-Based:</strong> Resources are identified by URIs (Uniform Resource Identifiers). Resources can be manipulated using standard HTTP methods.</li>
+        <li><strong>Representation:</strong> Resources can be represented in various formats such as JSON, XML, or HTML. Clients interact with resources through these representations.</li>
+    </ul>
+
+    <h3>Common HTTP Methods Used in REST APIs:</h3>
+    <ul>
+        <li><strong>GET:</strong> Retrieve information about a resource.</li>
+        <li><strong>POST:</strong> Create a new resource.</li>
+        <li><strong>PUT:</strong> Update an existing resource or create a resource if it does not exist.</li>
+        <li><strong>DELETE:</strong> Remove a resource.</li>
+    </ul>
+
+    <h3>Example of a REST API Interaction:</h3>
+    <p>Assume a REST API for managing a list of books. You might interact with it using the following endpoints:</p>
+    <ul>
+        <li><strong>GET /books:</strong> Retrieve a list of all books.</li>
+        <li><strong>GET /books/{id}:</strong> Retrieve information about a specific book.</li>
+        <li><strong>POST /books:</strong> Add a new book.</li>
+        <li><strong>PUT /books/{id}:</strong> Update information about a specific book.</li>
+        <li><strong>DELETE /books/{id}:</strong> Remove a specific book.</li>
+    </ul>
+
+    <h3>Advantages of REST APIs:</h3>
+    <ul>
+        <li><strong>Scalability:</strong> The stateless nature of REST helps in scaling applications.</li>
+        <li><strong>Flexibility:</strong> REST APIs support multiple formats for data representation.</li>
+        <li><strong>Interoperability:</strong> REST APIs are platform-agnostic and can be used across different systems.</li>
+    </ul>
+
+    <h2>Summary</h2>
+    <ul>
+        <li><strong>API:</strong> A set of rules and tools that allow different software applications to communicate with each other.</li>
+        <li><strong>REST API:</strong> A type of web API that adheres to REST principles, using standard HTTP methods to interact with resources in a stateless manner.</li>
+    </ul>
+</div>
+
+`,
+
+
+//OOPS CONCEPTS
+'general-oops-concept':`
+<h1>OOPS Concept</h1>
+<p>Object-Oriented Programming (OOP) is a programming paradigm based on the concept of "objects," which can contain data and code. The key principles of OOP help in designing software that is modular, reusable, and maintainable. Here’s an overview of the main OOP concepts:</p>
+
+<h2>1. Classes and Objects</h2>
+<p><strong>Classes:</strong> A class is a blueprint or template for creating objects. It defines the structure (attributes) and behavior (methods) that the objects created from the class will have.</p>
+
+<pre><code>
+public class Car {
+    public string Make { get; set; }
+    public string Model { get; set; }
+    public int Year { get; set; }
+
+    public void Start() {
+        Console.WriteLine("Car started");
+    }
+}
+</code></pre>
+
+<p><strong>Objects:</strong> An object is an instance of a class. It represents a specific realization of the class and can interact with other objects and methods defined in the class.</p>
+
+<pre><code>
+public class Program {
+    public static void Main() {
+        Car myCar = new Car();
+        myCar.Make = "Toyota";
+        myCar.Model = "Corolla";
+        myCar.Year = 2020;
+        myCar.Start(); // Output: Car started
+    }
+}
+</code></pre>
+
+<h2>2. Encapsulation</h2>
+<p><strong>Definition:</strong> Encapsulation is the concept of bundling data (attributes) and methods (behavior) that operate on the data into a single unit, i.e., a class. It also involves restricting direct access to some of the object's components, typically achieved through access modifiers.</p>
+
+<pre><code>
+public class BankAccount {
+    private decimal balance;
+
+    public decimal Balance {
+        get { return balance; }
+    }
+
+    public void Deposit(decimal amount) {
+        if (amount > 0) {
+            balance += amount;
+        }
+    }
+
+    public void Withdraw(decimal amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+        }
+    }
+}
+</code></pre>
+
+<h2>3. Inheritance</h2>
+<p><strong>Definition:</strong> Inheritance is a mechanism where a new class (derived class or subclass) is based on an existing class (base class or superclass). The derived class inherits attributes and methods from the base class, allowing for code reuse and the creation of hierarchical relationships between classes.</p>
+
+<pre><code>
+public class Animal {
+    public void Eat() {
+        Console.WriteLine("Animal eats");
+    }
+}
+
+public class Dog : Animal {
+    public void Bark() {
+        Console.WriteLine("Dog barks");
+    }
+}
+
+public class Program {
+    public static void Main() {
+        Dog myDog = new Dog();
+        myDog.Eat();  // Inherited method
+        myDog.Bark(); // Derived class method
+    }
+}
+</code></pre>
+
+<h2>4. Polymorphism</h2>
+<p><strong>Definition:</strong> Polymorphism allows objects to be treated as instances of their parent class rather than their actual class. The most common forms of polymorphism are method overriding and method overloading.</p>
+
+<pre><code>
+// Base class
+public class Shape {
+    public virtual void Draw() {
+        Console.WriteLine("Drawing a shape");
+    }
+}
+
+// Derived class
+public class Circle : Shape {
+    public override void Draw() {
+        Console.WriteLine("Drawing a circle");
+    }
+}
+
+public class Program {
+    public static void Main() {
+        Shape myShape = new Circle();
+        myShape.Draw(); // Output: Drawing a circle
+    }
+}
+</code></pre>
+
+<h2>5. Abstraction</h2>
+<p><strong>Definition:</strong> Abstraction is the concept of hiding the complex implementation details of a system and exposing only the necessary features. It allows you to focus on interactions at a higher level, without needing to understand the underlying complexity.</p>
+
+<pre><code>
+// Abstract class
+public abstract class Shape {
+    public abstract void Draw();
+}
+
+// Concrete class
+public class Rectangle : Shape {
+    public override void Draw() {
+        Console.WriteLine("Drawing a rectangle");
+    }
+}
+
+public class Program {
+    public static void Main() {
+        Shape myShape = new Rectangle();
+        myShape.Draw(); // Output: Drawing a rectangle
+    }
+}
+</code></pre>
+
+<h2>Summary</h2>
+<p>The core concepts of Object-Oriented Programming (OOP) are designed to help developers create software that is more modular, reusable, and maintainable:</p>
+<ul>
+    <li><strong>Classes and Objects:</strong> Fundamental building blocks of OOP, representing entities with attributes and behaviors.</li>
+    <li><strong>Encapsulation:</strong> Bundling data and methods, and controlling access to the data.</li>
+    <li><strong>Inheritance:</strong> Mechanism for creating new classes based on existing ones, promoting code reuse.</li>
+    <li><strong>Polymorphism:</strong> Ability to treat objects of different classes through a common interface, allowing for flexible and interchangeable code.</li>
+    <li><strong>Abstraction:</strong> Hiding complex implementation details and exposing only the necessary parts of an object or system.</li>
+</ul>
+`,
+//BOXING UNBOXING AUTOBOXING
+'general-boxing-unboxing':`
+<h1>Boxing, Unboxing, and Autoboxing</h1>
+
+<p>Boxing, unboxing, and autoboxing are concepts in C# that involve converting between value types (like int, char, bool) and reference types (like object). Here's a detailed explanation of each:</p>
+
+<h2>Boxing</h2>
+<p><strong>Definition:</strong> Boxing is the process of converting a value type (such as an int, double, char, etc.) to an object or IEnumerable type. When a value type is boxed, it is wrapped in an Object type so that it can be treated as a reference type.</p>
+
+<p><strong>How It Works:</strong> When a value type is boxed, a new object is allocated on the heap, and the value type is copied into this object. The reference to this object is then returned.</p>
+
+<pre><code>
+int number = 123;
+object boxedNumber = number; // Boxing
+</code></pre>
+
+<p>In this example, the int value <code>123</code> is boxed into an object type and stored in the variable <code>boxedNumber</code>.</p>
+
+<h2>Unboxing</h2>
+<p><strong>Definition:</strong> Unboxing is the process of converting an object back to a value type. To unbox, you need to cast the object to the original value type.</p>
+
+<p><strong>How It Works:</strong> When unboxing, the runtime checks that the object being cast is indeed an instance of the value type it is being cast to, and then it retrieves the value from the object.</p>
+
+<pre><code>
+object boxedNumber = 123;
+int number = (int)boxedNumber; // Unboxing
+</code></pre>
+
+<p>In this example, the object variable <code>boxedNumber</code> is unboxed to an <code>int</code> type, and the value <code>123</code> is extracted.</p>
+
+<h2>Autoboxing</h2>
+<p><strong>Definition:</strong> Autoboxing refers to the automatic conversion of value types to their corresponding reference types when needed, such as when a value type is assigned to a variable of type <code>object</code> or when interacting with generic collections like <code>List&lt;object&gt;</code>.</p>
+
+<p><strong>How It Works:</strong> Autoboxing is automatically handled by the compiler and runtime. You don't need to explicitly box the value type; the compiler inserts the necessary boxing code for you.</p>
+
+<pre><code>
+List&lt;object&gt; list = new List&lt;object&gt;();
+int number = 42;
+list.Add(number); // Autoboxing happens here
+</code></pre>
+
+<p>In this example, <code>number</code> is automatically boxed when added to the <code>List&lt;object&gt;</code>. You don't need to explicitly box it; the compiler takes care of that for you.</p>
+
+<h2>Important Considerations</h2>
+<ul>
+    <li><strong>Performance:</strong> Boxing and unboxing involve additional overhead due to object creation and type conversion. Frequent boxing and unboxing operations can lead to performance issues, especially in performance-critical applications.</li>
+    <li><strong>Avoiding Overhead:</strong> Using value types directly without boxing/unboxing when possible, or using generic collections (e.g., <code>List&lt;int&gt;</code> instead of <code>List&lt;object&gt;</code>) can help minimize the performance impact.</li>
+    <li><strong>Type Safety:</strong> Unboxing requires an explicit cast and can throw an <code>InvalidCastException</code> if the object being unboxed is not of the expected type. Always ensure that the object is of the correct type before unboxing.</li>
+</ul>
+
+<h2>Summary</h2>
+<ul>
+    <li><strong>Boxing:</strong> Converting a value type to an object type.</li>
+    <li><strong>Unboxing:</strong> Converting an object type back to a value type.</li>
+    <li><strong>Autoboxing:</strong> The automatic boxing of value types when they are assigned to variables of type <code>object</code> or used in collections of type <code>object</code>.</li>
+</ul>
+
+<p>Understanding these concepts helps in managing type conversions efficiently and avoiding performance bottlenecks related to boxing and unboxing operations.</p>
+`,
+
+//ABSTRACT CLASS AND INTERFACE
+'general-abstractclass-interface':`
+<h1>Interface and Abstract Class</h1>
+
+<p>In C#, both interfaces and abstract classes are used to define methods and properties that derived classes must implement, but they have different use cases and characteristics. Here's a comparison of the two:</p>
+
+<h2>Interface</h2>
+<p><strong>Definition:</strong> An interface is a contract that defines a set of methods and properties that implementing classes must provide. It specifies what a class should do, but not how it should do it.</p>
+
+<h3>Key Characteristics:</h3>
+<ul>
+    <li><strong>No Implementation:</strong> Interfaces cannot contain implementation code. They only define method signatures, properties, events, and indexers.</li>
+    <li><strong>Multiple Inheritance:</strong> A class can implement multiple interfaces, allowing for a form of multiple inheritance.</li>
+    <li><strong>Access Modifiers:</strong> All members of an interface are implicitly public, and you cannot specify access modifiers.</li>
+    <li><strong>Inheritance:</strong> Interfaces can inherit from other interfaces.</li>
+</ul>
+
+<h3>Syntax Example:</h3>
+<pre><code>
+public interface IShape
+{
+    double CalculateArea();
+    double CalculatePerimeter();
+}
+
+public class Circle : IShape
+{
+    public double Radius { get; set; }
+
+    public double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+
+    public double CalculatePerimeter()
+    {
+        return 2 * Math.PI * Radius;
+    }
+}
+</code></pre>
+
+<h2>Abstract Class</h2>
+<p><strong>Definition:</strong> An abstract class is a class that cannot be instantiated on its own and is meant to be inherited by other classes. It can contain both abstract methods (without implementation) and concrete methods (with implementation).</p>
+
+<h3>Key Characteristics:</h3>
+<ul>
+    <li><strong>Partial Implementation:</strong> Abstract classes can provide default implementations of methods and properties, allowing derived classes to reuse or override them.</li>
+    <li><strong>Single Inheritance:</strong> A class can inherit from only one abstract class due to C#'s single inheritance model.</li>
+    <li><strong>Access Modifiers:</strong> Abstract class members can have various access modifiers, including private, protected, and public.</li>
+    <li><strong>Constructors:</strong> Abstract classes can have constructors, which can be called by derived classes.</li>
+</ul>
+
+<h3>Syntax Example:</h3>
+<pre><code>
+public abstract class Shape
+{
+    public abstract double CalculateArea(); // Abstract method (no implementation)
+
+    public double CalculatePerimeter() // Concrete method (with implementation)
+    {
+        // Default implementation or throw NotImplementedException
+        throw new NotImplementedException();
+    }
+}
+
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+
+    public override double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+}
+</code></pre>
+
+<h2>When to Use Each</h2>
+<h3>Use an Interface when:</h3>
+<ul>
+    <li>You need to define a contract that multiple classes can implement.</li>
+    <li>You want to achieve multiple inheritance of functionality.</li>
+    <li>The implementing classes might not share a common base class.</li>
+</ul>
+
+<h3>Use an Abstract Class when:</h3>
+<ul>
+    <li>You want to provide a common base with some shared functionality and some methods that must be implemented by derived classes.</li>
+    <li>You need to share code between closely related classes.</li>
+    <li>You want to provide a base class with constructors or fields.</li>
+</ul>
+
+<h2>Summary</h2>
+<ul>
+    <li><strong>Interfaces:</strong> Define a contract that classes must implement, without providing any implementation. Allow for multiple inheritance and are implicitly public.</li>
+    <li><strong>Abstract Classes:</strong> Provide a base class with some implementation that derived classes can extend or override. Support single inheritance and can contain constructors, fields, and access modifiers.</li>
+</ul>
+
+<p>Choosing between an interface and an abstract class depends on the design requirements of your application and the relationship between the classes.</p>
+
+`,
 
     //AJAX
     'general-ajax': `
