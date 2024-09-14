@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Topics</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <div id="header">
+    <h1>Technical Topics Website</h1>
+  </div>
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="list-group">
+      <!-- SQL Category -->
+      <a href="#sqlCollapse" class="list-group-item list-group-item-action" data-toggle="collapse" aria-expanded="false" aria-controls="sqlCollapse">SQL</a>
+      <div class="collapse" id="sqlCollapse">
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('sql-drop-truncate')">DROP vs TRUNCATE</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('sql-magic-tables')">Magic Tables in SQL Server</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('sql-commit-rollback')">Commit and Rollback</a>
+      </div>
+
+      <!-- .NET Category -->
+      <a href="#dotnetCollapse" class="list-group-item list-group-item-action" data-toggle="collapse" aria-expanded="false" aria-controls="dotnetCollapse">.NET</a>
+      <div class="collapse" id="dotnetCollapse">
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-early-late-binding')">Early Binding vs Late Binding</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-finalize-dispose')">Finalize() and Dispose()</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-var-dynamic')">var vs dynamic</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-solid-principles')">SOLID Principles</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-minification-bundling')">Minification and Bundling</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-run-use-map')">Run(), Use(), Map() Methods</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-middleware-filters')">Middleware vs Filters in .NET Core</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('dotnet-dependency-injection')">Dependency Injection</a>
+      </div>
+
+      <!-- General Topics -->
+      <a href="#generalCollapse" class="list-group-item list-group-item-action" data-toggle="collapse" aria-expanded="false" aria-controls="generalCollapse">General</a>
+      <div class="collapse" id="generalCollapse">
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-ajax')">AJAX</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-viewstate-session')">ViewState vs Session</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-cookies')">Types of Cookies</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-ado-net')">ADO.NET</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-mvc-routing')">MVC Routing</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-session-management')">Session Management</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-action-return-types')">Controller Action Return Types</a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="showContent('general-actionresult-viewresult')">ActionResult vs ViewResult</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="content">
+    <h2>Welcome to the Technical Topics Website</h2>
+    <p>Select a topic from the sidebar to view its description.</p>
+    <div id="topic-content">
+      <!-- Topic content will be displayed here -->
+    </div>
+  </div>
+
+  <!-- Bootstrap and jQuery JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.11/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+
+</body>
+</html>
