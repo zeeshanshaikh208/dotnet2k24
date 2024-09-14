@@ -279,6 +279,242 @@ emp.CalculateSalary();          // Method call is determined at runtime
     `,
 
 
+//SEALED
+'dotnet-sealed':`
+<h1 class="mt-4">The <code>sealed</code> Keyword in C#</h1>
+  <p>The <code>sealed</code> keyword in C# is used to restrict the inheritance of a class or method. It can be applied to both classes and methods to control how they can be used in inheritance hierarchies. Here’s a detailed explanation of its usage:</p>
+
+  <h2>1. Sealed Class</h2>
+  <p><strong>Definition:</strong> When a class is marked as sealed, it cannot be inherited from. This means that no other class can derive from a sealed class.</p>
+  <p><strong>Purpose:</strong> The <code>sealed</code> keyword is used to prevent further inheritance and extendability of a class. It can be useful to:</p>
+  <ul>
+    <li>Prevent modification of the class behavior through inheritance.</li>
+    <li>Ensure that the class remains unchanged and is not extended in a way that could potentially introduce bugs or undesired behavior.</li>
+  </ul>
+  <p><strong>Usage:</strong></p>
+  <pre><code class="language-csharp">public sealed class MySealedClass
+{
+    public void MyMethod()
+    {
+        // Method implementation
+    }
+}
+
+// The following code will result in a compile-time error:
+// public class DerivedClass : MySealedClass { }
+  </code></pre>
+  <p><strong>Example:</strong></p>
+  <pre><code class="language-csharp">public sealed class Logger
+{
+    public void Log(string message)
+    {
+        Console.WriteLine(message);
+    }
+}
+
+// Attempting to derive from Logger will cause a compile-time error:
+// public class CustomLogger : Logger { }
+  </code></pre>
+
+  <h2>2. Sealed Method</h2>
+  <p><strong>Definition:</strong> When a method in a base class is marked as sealed, it cannot be overridden in any derived class. This applies only when the method is virtual in the base class.</p>
+  <p><strong>Purpose:</strong> The <code>sealed</code> keyword on a method is used to prevent further overriding of a method in derived classes, which can be useful to:</p>
+  <ul>
+    <li>Lock down the behavior of the method to ensure it does not change in derived classes.</li>
+    <li>Ensure that the method implementation remains consistent across all derived classes.</li>
+  </ul>
+  <p><strong>Usage:</strong> A method marked as sealed must be in a class that is itself marked as abstract or sealed, and it must override a virtual or abstract method from a base class.</p>
+  <pre><code class="language-csharp">public class BaseClass
+{
+    public virtual void Display()
+    {
+        Console.WriteLine("BaseClass Display");
+    }
+}
+
+public class DerivedClass : BaseClass
+{
+    public sealed override void Display()
+    {
+        Console.WriteLine("DerivedClass Display");
+    }
+}
+
+// Attempting to override Display in another class will cause a compile-time error:
+// public class FurtherDerivedClass : DerivedClass
+// {
+//     public override void Display()
+//     {
+//         Console.WriteLine("FurtherDerivedClass Display");
+//     }
+// }
+  </code></pre>
+
+  <h2>Summary of <code>sealed</code> Keyword</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Usage</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Sealed Class</td>
+        <td>Prevents the class from being inherited.</td>
+        <td><code>public sealed class MyClass { }</code></td>
+      </tr>
+      <tr>
+        <td>Sealed Method</td>
+        <td>Prevents a method from being overridden in derived classes.</td>
+        <td><code>public sealed override void MyMethod() { }</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>When to Use <code>sealed</code></h2>
+  <p><strong>Sealed Class:</strong></p>
+  <ul>
+    <li>When you want to create a class that should not be extended, ensuring its behavior remains consistent and unaltered.</li>
+    <li>To improve performance slightly by preventing runtime type checks and optimizations related to inheritance.</li>
+  </ul>
+  <p><strong>Sealed Method:</strong></p>
+  <ul>
+    <li>When you need to lock down specific methods that should not be further overridden, ensuring their behavior remains consistent and secure in derived classes.</li>
+  </ul>
+  <p>The <code>sealed</code> keyword provides a way to enforce design decisions about class and method inheritance, allowing you to better control and maintain the behavior of your classes and methods in C#.</p>
+
+`,
+
+//WEB API RETURN TYPE
+'dotnet-webapi-return-types':`
+<h1 class="mt-4">Main Return Types Supported in Web API</h1>
+<p>In ASP.NET Web API, controllers can return various types of responses. The return types supported in Web API help you shape the response sent to the client. Here are the main return types supported:</p>
+
+<h2>1. <code>IHttpActionResult</code></h2>
+<p><strong>Definition:</strong> <code>IHttpActionResult</code> is an interface that represents an action result in Web API. It provides a way to return a result that encapsulates the response, including status codes and content.</p>
+<p><strong>Purpose:</strong> It allows for more flexibility and better control over the HTTP response. It enables you to use action results that can be composed and returned from the controller methods.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-csharp">public class ValuesController : ApiController
+{
+    public IHttpActionResult Get()
+    {
+        return Ok(new { Value = "Some data" });
+    }
+}
+  </code></pre>
+<p><strong>Common Methods:</strong></p>
+<ul>
+  <li><code>Ok()</code>: Returns a 200 OK response with a specified content.</li>
+  <li><code>NotFound()</code>: Returns a 404 Not Found response.</li>
+  <li><code>BadRequest()</code>: Returns a 400 Bad Request response.</li>
+  <li><code>InternalServerError()</code>: Returns a 500 Internal Server Error response.</li>
+</ul>
+
+<h2>2. <code>HttpResponseMessage</code></h2>
+<p><strong>Definition:</strong> <code>HttpResponseMessage</code> represents the HTTP response message including status code, headers, and content.</p>
+<p><strong>Purpose:</strong> It provides explicit control over the entire HTTP response, including headers and status codes.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-csharp">public class ValuesController : ApiController
+{
+    public HttpResponseMessage Get()
+    {
+        var response = Request.CreateResponse(HttpStatusCode.OK, new { Value = "Some data" });
+        return response;
+    }
+}
+  </code></pre>
+
+<h2>3. POCO (Plain Old CLR Object)</h2>
+<p><strong>Definition:</strong> Returning a POCO object directly from a Web API controller method returns the object serialized as JSON or XML based on the requested media type.</p>
+<p><strong>Purpose:</strong> It simplifies returning data by letting the Web API framework handle serialization and content negotiation.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-csharp">public class ValuesController : ApiController
+{
+    public MyDataModel Get()
+    {
+        return new MyDataModel { Value = "Some data" };
+    }
+}
+
+public class MyDataModel
+{
+    public string Value { get; set; }
+}
+  </code></pre>
+
+<h2>4. <code>IEnumerable&lt;T&gt;</code> or <code>List&lt;T&gt;</code></h2>
+<p><strong>Definition:</strong> Returning an <code>IEnumerable&lt;T&gt;</code> or <code>List&lt;T&gt;</code> from a Web API method returns a collection of objects serialized as JSON or XML.</p>
+<p><strong>Purpose:</strong> Useful for returning lists or collections of data items.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-csharp">public class ValuesController : ApiController
+{
+    public IEnumerable<MyDataModel> Get()
+    {
+        return new List<MyDataModel>
+        {
+            new MyDataModel { Value = "Data 1" },
+            new MyDataModel { Value = "Data 2" }
+        };
+    }
+}
+  </code></pre>
+
+<h2>5. <code>HttpStatusCode</code></h2>
+<p><strong>Definition:</strong> Directly returning an <code>HttpStatusCode</code> from a Web API method sends an HTTP response with the specified status code.</p>
+<p><strong>Purpose:</strong> Use this for simple status code responses without additional content.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-csharp">public class ValuesController : ApiController
+{
+    public HttpStatusCode Get()
+    {
+        return HttpStatusCode.NoContent; // 204 No Content
+    }
+}
+  </code></pre>
+
+<h2>Summary of Main Return Types</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Return Type</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>IHttpActionResult</code></td>
+      <td>Represents an action result with status and content control.</td>
+      <td><code>return Ok(new { Value = "data" });</code></td>
+    </tr>
+    <tr>
+      <td><code>HttpResponseMessage</code></td>
+      <td>Represents the entire HTTP response including headers.</td>
+      <td><code>return Request.CreateResponse(HttpStatusCode.OK, data);</code></td>
+    </tr>
+    <tr>
+      <td>POCO</td>
+      <td>Directly returns an object serialized as JSON or XML.</td>
+      <td><code>return new MyDataModel { Value = "data" };</code></td>
+    </tr>
+    <tr>
+      <td><code>IEnumerable&lt;T&gt; / List&lt;T&gt;</code></td>
+      <td>Returns a collection of objects serialized as JSON or XML.</td>
+      <td><code>return new List<MyDataModel> { ... };</code></td>
+    </tr>
+    <tr>
+      <td><code>HttpStatusCode</code></td>
+      <td>Returns an HTTP status code with no content.</td>
+      <td><code>return HttpStatusCode.NoContent;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>These return types allow you to build flexible and powerful Web APIs, handling various types of responses and ensuring compatibility with different client expectations and media types.</p>
+
+`,
 
     //VAR DYNAMIC
     'dotnet-var-dynamic': `
@@ -848,8 +1084,278 @@ public class LogActionFilter : IActionFilter
 
     //DEPEDENCY INJECTION
     'dotnet-dependency-injection': `
-      <h3>Dependency Injection</h3>
-      <p>Dependency Injection is a design pattern used to implement Inversion of Control, allowing objects to be injected into other objects rather than creating them directly.</p>
+    <h2>Dependency Injection</h2>
+
+<p>Dependency Injection (DI) is a design pattern and a technique used in software development to achieve Inversion of Control (IoC) between classes and their dependencies. The primary goal of DI is to reduce the coupling between components in a system, making the system more modular, testable, and maintainable.</p>
+
+<h3>Key Concepts of Dependency Injection</h3>
+
+<h4>Inversion of Control (IoC)</h4>
+<p><strong>Definition:</strong> IoC is a principle where the control of object creation and management is inverted from the application code to an external component (such as a DI container).</p>
+<p><strong>Purpose:</strong> To decouple the code that uses services from the code that implements them, improving flexibility and testability.</p>
+
+<h4>Dependency Injection</h4>
+<p><strong>Definition:</strong> DI is a specific form of IoC where dependencies are injected into a class rather than the class creating or looking up its dependencies. This is done typically via constructor injection, property injection, or method injection.</p>
+
+<p><strong>Types of Injection:</strong></p>
+<ul>
+    <li><strong>Constructor Injection:</strong> Dependencies are provided through the class constructor.</li>
+    <li><strong>Property Injection:</strong> Dependencies are set through public properties.</li>
+    <li><strong>Method Injection:</strong> Dependencies are passed directly to methods.</li>
+</ul>
+
+<h4>DI Container</h4>
+<p><strong>Definition:</strong> A DI container (or IoC container) is a framework or library responsible for managing the lifecycle and resolution of dependencies. It handles the creation and injection of services.</p>
+<p><strong>Purpose:</strong> To automate the process of dependency resolution, manage the lifecycle of services (e.g., singleton, transient), and facilitate the injection of dependencies.</p>
+
+<h3>Benefits of Dependency Injection</h3>
+<ul>
+    <li><strong>Loose Coupling:</strong> DI helps in decoupling classes from their dependencies, making it easier to change or replace dependencies without modifying the dependent class.</li>
+    <li><strong>Enhanced Testability:</strong> By injecting dependencies, you can easily replace real implementations with mocks or stubs in unit tests, facilitating better testing practices.</li>
+    <li><strong>Improved Maintainability:</strong> Changes to dependencies or their implementations have minimal impact on the classes that use them, leading to cleaner and more maintainable code.</li>
+    <li><strong>Configurability:</strong> DI containers often allow configuration of dependency lifetimes (e.g., singleton, scoped, transient) and registration of services, centralizing configuration management.</li>
+</ul>
+
+<h3>Dependency Injection in ASP.NET Core</h3>
+<p>ASP.NET Core has built-in support for dependency injection. Here's how it typically works:</p>
+
+<h4>Configure Services</h4>
+<p>You define and register services in the ConfigureServices method of the Startup class. Services can be registered with different lifetimes: Singleton, Scoped, or Transient.</p>
+<pre><code class="language-csharp">
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Register services
+        services.AddSingleton&lt;ILogger, ConsoleLogger&gt;(); // Singleton service
+        services.AddScoped&lt;IRepository, SqlRepository&gt;();  // Scoped service
+        services.AddTransient&lt;IEmailService, SmtpEmailService&gt;(); // Transient service
+    }
+}
+</code></pre>
+
+<h4>Inject Dependencies</h4>
+<p>Dependencies are injected into constructors, methods, or properties of controllers or services. ASP.NET Core's built-in DI container will resolve and provide the required dependencies.</p>
+<pre><code class="language-csharp">
+public class HomeController : Controller
+{
+    private readonly ILogger _logger;
+    private readonly IRepository _repository;
+
+    // Constructor injection
+    public HomeController(ILogger logger, IRepository repository)
+    {
+        _logger = logger;
+        _repository = repository;
+    }
+
+    public IActionResult Index()
+    {
+        _logger.Log("Index action called");
+        var data = _repository.GetData();
+        return View(data);
+    }
+}
+</code></pre>
+
+<h4>Example of Dependency Injection</h4>
+<p>Here's a basic example of setting up DI in an ASP.NET Core application:</p>
+
+<h5>Define Interfaces and Implementations</h5>
+<pre><code class="language-csharp">
+public interface IMessageService
+{
+    void SendMessage(string message);
+}
+
+public class EmailMessageService : IMessageService
+{
+    public void SendMessage(string message)
+    {
+        // Send email logic
+    }
+}
+</code></pre>
+
+<h5>Register Services in Startup</h5>
+<pre><code class="language-csharp">
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddTransient&lt;IMessageService, EmailMessageService&gt;();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        // Middleware and request handling setup
+    }
+}
+</code></pre>
+
+<h5>Inject Service in Controller</h5>
+<pre><code class="language-csharp">
+public class HomeController : Controller
+{
+    private readonly IMessageService _messageService;
+
+    public HomeController(IMessageService messageService)
+    {
+        _messageService = messageService;
+    }
+
+    public IActionResult Send()
+    {
+        _messageService.SendMessage("Hello Dependency Injection!");
+        return View();
+    }
+}
+</code></pre>
+
+<p>In this example:</p>
+<ul>
+    <li>IMessageService is an interface, and EmailMessageService is a concrete implementation.</li>
+    <li>The service is registered in the DI container with AddTransient, which means a new instance will be created each time it is requested.</li>
+    <li>The service is injected into the HomeController constructor, allowing it to be used within the controller.</li>
+</ul>
+
+<p>In summary, Dependency Injection is a powerful technique for achieving better software design and maintainability by managing dependencies and reducing coupling between components. ASP.NET Core provides robust support for DI, making it a central part of modern .NET applications.</p>
+
+    `,
+
+
+    //SERVICE LIFETIMES
+    'dotnet-service-lifetimes': `
+      <h2>Service Lifetimes</h2>
+
+<p>In ASP.NET Core, service lifetimes define how long a service instance should be used and how it should be managed by the Dependency Injection (DI) container. There are three main service lifetimes:</p>
+
+<h3>1. Singleton</h3>
+<p><strong>Definition:</strong> A singleton service is created once and shared throughout the application's lifetime. Only one instance of the service is created and used by all requests and components.</p>
+<p><strong>Lifecycle:</strong> The singleton instance is created when it is first requested, and the same instance is used for the entire application lifecycle.</p>
+<p><strong>Use Case:</strong> Use singleton services for stateless services or services that maintain global state or configuration that should be consistent across the application.</p>
+<h4>Configuration:</h4>
+<pre><code class="language-csharp">
+public class SingletonService : ISingletonService
+{
+    // Service implementation
+}
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddSingleton&lt;ISingletonService, SingletonService&gt;();
+}
+</code></pre>
+<h4>Example:</h4>
+<pre><code class="language-csharp">
+public class SingletonService : ISingletonService
+{
+    public SingletonService()
+    {
+        // Initialization code
+    }
+}
+</code></pre>
+
+<h3>2. Scoped</h3>
+<p><strong>Definition:</strong> A scoped service is created once per request (or per scope). Each HTTP request or scope gets its own instance of the service, and the same instance is used throughout the lifetime of that request or scope.</p>
+<p><strong>Lifecycle:</strong> The scoped instance is created when a new scope is created (e.g., at the start of an HTTP request) and is disposed of at the end of the scope.</p>
+<p><strong>Use Case:</strong> Use scoped services for operations that require a unique instance per request, such as database contexts or services that need to maintain request-specific data.</p>
+<h4>Configuration:</h4>
+<pre><code class="language-csharp">
+public class ScopedService : IScopedService
+{
+    // Service implementation
+}
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped&lt;IScopedService, ScopedService&gt;();
+}
+</code></pre>
+<h4>Example:</h4>
+<pre><code class="language-csharp">
+public class ScopedService : IScopedService
+{
+    public ScopedService()
+    {
+        // Initialization code
+    }
+}
+</code></pre>
+
+<h3>3. Transient</h3>
+<p><strong>Definition:</strong> A transient service is created each time it is requested. Every request for the service results in a new instance being created.</p>
+<p><strong>Lifecycle:</strong> The transient instance is created and disposed of immediately after the request is completed, and a new instance is created for every new request.</p>
+<p><strong>Use Case:</strong> Use transient services for lightweight, stateless services or services where the instance state is not required to be maintained across requests.</p>
+<h4>Configuration:</h4>
+<pre><code class="language-csharp">
+public class TransientService : ITransientService
+{
+    // Service implementation
+}
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddTransient&lt;ITransientService, TransientService&gt;();
+}
+</code></pre>
+<h4>Example:</h4>
+<pre><code class="language-csharp">
+public class TransientService : ITransientService
+{
+    public TransientService()
+    {
+        // Initialization code
+    }
+}
+</code></pre>
+
+<h3>Summary of Service Lifetimes</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Lifetime</th>
+            <th>Description</th>
+            <th>Instance Creation</th>
+            <th>Scope</th>
+            <th>Use Case</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Singleton</td>
+            <td>Single instance for the entire application.</td>
+            <td>Once per application.</td>
+            <td>Application lifetime.</td>
+            <td>Global state, configuration settings.</td>
+        </tr>
+        <tr>
+            <td>Scoped</td>
+            <td>One instance per request or scope.</td>
+            <td>Once per request.</td>
+            <td>Request or custom scope.</td>
+            <td>Request-specific data, database contexts.</td>
+        </tr>
+        <tr>
+            <td>Transient</td>
+            <td>New instance each time it is requested.</td>
+            <td>Each request.</td>
+            <td>No scope; instance is short-lived.</td>
+            <td>Lightweight, stateless services.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Choosing the Right Lifetime</h3>
+<ul>
+    <li><strong>Singleton:</strong> Use when you need a single, shared instance that maintains state or configuration across the entire application.</li>
+    <li><strong>Scoped:</strong> Use when you need an instance that is unique to each request or scope, ideal for services that interact with request-specific data.</li>
+    <li><strong>Transient:</strong> Use when you need a new instance every time, suitable for stateless services or operations.</li>
+</ul>
+
+<p>By properly selecting the service lifetime based on the needs of your application, you can optimize performance, manage resource usage effectively, and ensure that your services operate as intended.</p>
+
     `,
 
     //AJAX
@@ -1911,4 +2417,6 @@ public ActionResult Contact()
     const contentDiv = document.getElementById('topic-content');
     contentDiv.innerHTML = content[topic] || '<p>Select a topic to view its description.</p>';
   }
+
+
   

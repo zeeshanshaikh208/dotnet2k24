@@ -1,121 +1,204 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
 /* Header Styles */
 #header {
-    width: 100%;
-    height: 60px;
-    background-color: #007bff; /* Header color */
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1030; /* Ensure it stays above sidebar */
-  }
-  
-  #header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-  }
-  
-  /* Sidebar Styles */
+  width: 100%;
+  height: 60px;
+  background-color: #007bff; /* Header color */
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1030; /* Ensure it stays above sidebar */
+}
+
+#header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Sidebar Styles */
+#sidebar {
+  height: calc(100vh - 60px); /* Full height minus header height */
+  width: 250px;
+  position: fixed;
+  top: 60px; /* Push below header */
+  left: 0;
+  background-color: #343a40; /* Sidebar background color */
+  padding-top: 20px;
+  overflow-y: auto; /* Allows sidebar to scroll */
+}
+
+/* Main Menu Item Styles */
+#sidebar .list-group-item {
+  color: #f8f9fa; /* Main menu text color */
+  background-color: #343a40; /* Main menu background color */
+  border: none; /* Remove borders */
+  font-weight: bold; /* Make main menu items bold */
+}
+
+#sidebar .list-group-item:hover {
+  background-color: #495057; /* Background color on hover */
+}
+
+/* Sub-Menu Item Styles */
+#sidebar .collapse .list-group-item {
+  color: #e9ecef; /* Sub-menu text color */
+  background-color: #495057; /* Sub-menu background color */
+  padding-left: 30px; /* Indent sub-menu items */
+  font-weight: normal; /* Make sub-menu items normal weight */
+}
+
+#sidebar .collapse .list-group-item:hover {
+  background-color: #6c757d; /* Sub-menu background color on hover */
+}
+
+#sidebar .collapse {
+  background-color: #343a40; /* Background color for collapsed sub-menu */
+}
+
+/* Content */
+#content {
+  margin-left: 260px; /* Space for the sidebar */
+  padding: 20px;
+  margin-top: 80px; /* Space for the header */
+}
+
+#topic-content {
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa; /* Background color for topic content */
+  border-radius: 5px;
+}
+
+/* Ensure the body takes the full height */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Media Queries for Responsive Design */
+
+/* Tablet and Mobile */
+@media (max-width: 768px) {
   #sidebar {
-    height: 100vh; /* Full height */
-    width: 250px;
-    position: fixed;
-    top: 60px; /* Push below header */
-    left: 0;
-    background-color: #343a40; /* Sidebar background color */
-    padding-top: 20px;
-    overflow-y: auto; /* Allows sidebar to scroll */
-  }
-  
-  /* Main Menu Item Styles */
-  #sidebar .list-group-item {
-    color: #f8f9fa; /* Main menu text color */
-    background-color: #343a40; /* Main menu background color */
-    border: none; /* Remove borders */
-    font-weight: bold; /* Make main menu items bold */
-  }
-  
-  #sidebar .list-group-item:hover {
-    background-color: #495057; /* Background color on hover */
-  }
-  
-  /* Sub-Menu Item Styles */
-  #sidebar .collapse .list-group-item {
-    color: #e9ecef; /* Sub-menu text color */
-    background-color: #495057; /* Sub-menu background color */
-    padding-left: 30px; /* Indent sub-menu items */
-    font-weight: normal; /* Make sub-menu items normal weight */
-  }
-  
-  #sidebar .collapse .list-group-item:hover {
-    background-color: #6c757d; /* Sub-menu background color on hover */
-  }
-  
-  #sidebar .collapse {
-    background-color: #343a40; /* Background color for collapsed sub-menu */
-  }
-  
-  /* Content */
-  #content {
-    margin-left: 260px; /* Space for the sidebar */
-    padding: 20px;
-    margin-top: 80px; /* Space for the header */
-  }
-  
-  #topic-content {
-    padding: 20px;
-    border: 1px solid #ddd;
-    background-color: #f8f9fa; /* Background color for topic content */
-    border-radius: 5px;
-  }
-  
-  /* Ensure the body takes the full height */
-  body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+      width: 100%;
+      height: auto;
+      position: relative;
+      top: 0;
+      padding-top: 0;
+      overflow: hidden;
   }
 
-  
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+  #content {
+      margin-left: 0;
+      padding: 10px;
+      margin-top: 60px; /* Adjust space for header */
+  }
+
+  #header h1 {
+      font-size: 1.2rem;
+  }
+
+  /* Adjust sidebar items for smaller screens */
+  #sidebar .list-group-item {
+      font-size: 0.9rem;
+  }
+
+  #sidebar .collapse .list-group-item {
+      font-size: 0.8rem;
+      padding-left: 20px;
+  }
 }
+
+/* Desktop */
+@media (min-width: 769px) {
+  #header h1 {
+      font-size: 1.5rem;
+  }
+
+  #sidebar .list-group-item {
+      font-size: 1rem;
+  }
+
+  #sidebar .collapse .list-group-item {
+      font-size: 0.9rem;
+      padding-left: 30px;
+  }
+}
+
+/* Additional responsiveness */
+@media (max-width: 576px) {
+  #header {
+      height: 50px;
+      padding: 0 10px;
+  }
+
+  #header h1 {
+      font-size: 1rem;
+  }
+
+  #sidebar .list-group-item {
+      font-size: 0.8rem;
+  }
+
+  #sidebar .collapse .list-group-item {
+      font-size: 0.7rem;
+      padding-left: 15px;
+  }
+}
+
 .container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
 }
+
 h1, h2 {
-    color: #333;
+  color: #333;
 }
+
 code {
-    background-color: #f4f4f4;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 1.1em;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 1.1em;
 }
+
 pre {
-    background-color: #f4f4f4;
-    border-radius: 5px;
-    padding: 10px;
-    overflow-x: auto;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  padding: 10px;
+  overflow-x: auto;
 }
+
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
 }
+
 table, th, td {
-    border: 1px solid #ddd;
+  border: 1px solid #ddd;
 }
+
 th, td {
-    padding: 10px;
-    text-align: left;
+  padding: 10px;
+  text-align: left;
 }
+
 th {
-    background-color: #f4f4f4;
+  background-color: #f4f4f4;
 }
+
+
+
+
